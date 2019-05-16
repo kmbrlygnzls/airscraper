@@ -46,6 +46,6 @@ def roundTripDateRange():
 
 def scrape(parameters):
     os.system('scrapy runspider airscraper/spiders/search.py ' + parameters + ' --nolog')
-    print '\ndepart.csv and return.csv (if applicable) generated'
+    print('\ndepart.csv and return.csv (if applicable) generated')
 
 main()
