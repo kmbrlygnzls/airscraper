@@ -1,5 +1,6 @@
 import scrapy
 import csv
+from airscraper.util import Date
 
 class SearchSpider(scrapy.Spider):
     name = 'search'
@@ -23,21 +24,23 @@ class SearchSpider(scrapy.Spider):
 
     def parse(self, response):
         flightTypeIDMap = {
-            'depart-table': 'depart-flight-schedule',
-            'return-table': 'return-flight-schedule'
+            'depart-table': { 'scheduleID': 'depart-flight-schedule', 'type': 'depart' },
+            'return-table': { 'scheduleID': 'return-flight-schedule', 'type': 'return' }
         }
 
         fareContainer = response.css('.select-flight-container')
         for fareTable in fareContainer.css('.flight-table'):
             flightType = fareTable.css('table ::attr(id)').extract_first().strip()
-            dateBox = response.css('.' + flightTypeIDMap[flightType])
+            dateBox = response.css('.' + flightTypeIDMap[flightType]['scheduleID'])
             dateBox = dateBox.css('.active.flights-schedule-col')
             dateYear = dateBox.css('a ::attr(data-curdateyear)').extract_first()
-            dateMonth = dateBox.css('a ::attr(data-curdatemonth)').extract_first()
+            dateMonth = dateBox.css('.month ::text').extract_first()
+            dateMonth = Date.ParseIntMonth(dateMonth)
             dateDay = dateBox.css('.day ::text').extract_first()
             date = dateYear + '-' + dateMonth + '-' + dateDay
             for fareRow in fareTable.css('.faretable-row'):
                 yield {
+                    'type': flightTypeIDMap[flightType]['type'],
                     'date': date,
                     'flightNumber': fareRow.css('.flight-number ::text').extract_first(),
                     'fare': fareRow.css('.fare-amount ::text').extract_first()
