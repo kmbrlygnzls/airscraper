@@ -4,11 +4,9 @@ class SearchSpider(scrapy.Spider):
     name = 'search'
 
     def start_requests(self):
-        oneWayUrl = 'https://book.cebupacificair.com/Flight/Select?o1=' + self.origin + '&d1=' + self.destination + '&dd1=' + self.departureDate
+        if self.option == 'oneWaySingleDate':
+            urls = ['https://book.cebupacificair.com/Flight/Select?o1=' + self.origin + '&d1=' + self.destination + '&dd1=' + self.departureDate]
 
-        urls = [
-            oneWayUrl
-        ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
