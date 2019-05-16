@@ -1,10 +1,11 @@
 import os
 
 def main():
-    print '1 Cheapest one-way fare for given route and date'
-    print '2 Cheapest one-way fare for given route and date range'
-    option = raw_input('Option: ')
-    print ''
+    print('1 Cheapest one-way fare for given route and date')
+    print('2 Cheapest one-way fare for given route and date range')
+    print('3 Cheapest one-way fare for multiple destinations and date')
+    option = input('Option: ')
+    print('')
 
     parameters = ''
     if option == "1":
@@ -14,9 +15,9 @@ def main():
     scrape(parameters)
 
 def oneWaySingleDate():
-    origin = raw_input('Origin (ex. MNL): ')
-    destination = raw_input('Destination (ex. HKG): ')
-    departureDate = raw_input('Departure Date (ex. 2019-01-01): ')
+    origin = input('Origin (ex. MNL): ')
+    destination = input('Destination (ex. HKG): ')
+    departureDate = input('Departure Date (ex. 2019-01-01): ')
     parameters = '-a option=oneWaySingleDate -a origin=' + origin + ' -a destination=' + destination + ' -a departureDate=' + departureDate
     return parameters
 

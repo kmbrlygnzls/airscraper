@@ -4,12 +4,12 @@ class SearchPipeline(object):
     def process_item(self, item, spider):
         item['flightNumber'] = item['flightNumber'].strip()
         item['fare'] = float(item['fare'].strip().strip('PHP').replace(',', ''))
-        print item
+        print(item)
         return item
 
 class CsvWriterPipeline(object):
     def open_spider(self, spider):
-        self.file = open('items.csv', 'wb')
+        self.file = open('items.csv', 'w')
 
     def close_spider(self, spider):
         self.file.close()
