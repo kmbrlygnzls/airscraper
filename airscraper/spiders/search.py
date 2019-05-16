@@ -1,4 +1,5 @@
 import scrapy
+from datetime import timedelta,date,datetime
 
 class SearchSpider(scrapy.Spider):
     name = 'search'
@@ -6,6 +7,11 @@ class SearchSpider(scrapy.Spider):
     def start_requests(self):
         if self.option == 'oneWaySingleDate':
             urls = ['https://book.cebupacificair.com/Flight/Select?o1=' + self.origin + '&d1=' + self.destination + '&dd1=' + self.departureDate]
+        elif self.option == 'oneWayDateRange':
+            print('One Way Date Range Activating....')
+            UrlService.setUrlList(self.origin,self.destination,self.departureDateFrom,self.departureDateTo)
+            urls = UrlService.getUrlList()
+            print("List: ", urls)
 
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -28,4 +34,35 @@ class SearchSpider(scrapy.Spider):
         #next_page_url = response.css('li.next > a::attr(href)').extract_first()
         #if next_page_url is not None:
             #yield scrapy.Request(response.urljoin(next_page_url))
+
+class UrlService:
+    urlList = []
+
+    @staticmethod
+    def setUrlList(origin, destination, dateRangeFrom, dateRangeTo):
+        print("Setting Url...")
+        if dateRangeTo:
+            print("Date Range Activated!\n Starting to loop through...")
+            startDate = UrlService.parseDate(dateRangeFrom)
+            endDate = UrlService.parseDate(dateRangeTo)
+            print("StartDate: {0}\n EndDate: {1}".format(startDate,endDate))
+
+            for date in range(int ((endDate - startDate).days)+1):
+                newDate =  startDate + timedelta(date)
+                print("Date: ",newDate) 
+                UrlService.addUrl(origin,destination,newDate)
+
+    @staticmethod
+    def addUrl(origin,destination,departureDate):
+        UrlService.urlList.append('https://book.cebupacificair.com/Flight/Select?o1={0}&d1={1}&dd1={2}'.format(origin,destination,departureDate))
+
+    @staticmethod
+    def getUrlList():
+        return UrlService.urlList
+
+    @staticmethod
+    def parseDate(date):
+        return datetime.strptime(date, '%Y-%m-%d').date()
+
+    
 
