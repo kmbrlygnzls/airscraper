@@ -9,15 +9,22 @@ class SearchPipeline(object):
 
 class CsvWriterPipeline(object):
     def open_spider(self, spider):
-        self.file_handle = open('items.csv', 'w')
-        self.file_handle.write("Date,FlightNumber,Fare")
+        self.depart_file_handle = open('depart.csv', 'w')
+        self.depart_file_handle.write("Date,FlightNumber,Fare")
+        self.return_file_handle = open('return.csv', 'w')
+        self.return_file_handle.write("Date,FlightNumber,Fare")
 
     def close_spider(self, spider):
-        self.file_handle.close()
+        self.depart_file_handle.close()
+        self.return_file_handle.close()
 
     def process_item(self, item, spider):
         date = item['date'].strip()
         flightNumber = item['flightNumber'].strip()
         fare = float(item['fare'].strip().strip('PHP').replace(',', ''))
-        self.file_handle.write("\n{},{},{}".format(date, flightNumber, fare))
+        if item['type'] == 'depart':
+            file_handle = self.depart_file_handle
+        elif item['type'] == 'return':
+            file_handle = self.return_file_handle
+        file_handle.write("\n{},{},{}".format(date, flightNumber, fare))
         return item
