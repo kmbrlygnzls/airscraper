@@ -1,5 +1,5 @@
 import re
-import datetime
+from datetime import date,datetime
 
 class Date:
     def ParseIntMonth(monthFullString):
@@ -21,10 +21,9 @@ class Date:
         monthString = re.search(regex, monthFullString).group(1)
         return monthStringMap[monthString]
 
-    def GetEndDate(startDate, duration):
-        date = datetime.datetime.strptime(startDate, '%Y-%m-%d')
-        endDate = date + datetime.timedelta(days=int(duration))
-        return endDate.strftime('%Y-%m-%d')
+    @staticmethod
+    def parseDate(date):
+        return datetime.strptime(date, '%Y-%m-%d').date()
 
 class Place:
     def GetAll():

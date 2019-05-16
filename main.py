@@ -30,7 +30,12 @@ def oneWaySingleDate():
     return parameters
 
 def oneWayDateRange():
-    pass
+    origin = input('Origin (ex. MNL): ')
+    destination = input('Destination (ex. HKG): ')
+    departureDateFrom = input('Departure Date From (ex. 2019-01-01): ')
+    departureDateTo = input('Departure Date To (ex. 2019-01-07): ')
+    parameters = '-a option=oneWayDateRange -a origin=' + origin + ' -a destination=' + destination + ' -a departureDateFrom=' + departureDateFrom + ' -a departureDateTo=' + departureDateTo
+    return parameters
 
 def multipleSingleDate():
     origin = input('Origin (ex. MNL): ')
