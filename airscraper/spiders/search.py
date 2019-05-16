@@ -1,6 +1,7 @@
 import scrapy
 import csv
 from airscraper.util import Date
+from datetime import timedelta,date
 
 class SearchSpider(scrapy.Spider):
     name = 'search'
@@ -8,6 +9,11 @@ class SearchSpider(scrapy.Spider):
     def start_requests(self):
         if self.option == 'oneWaySingleDate':
             urls = ['https://book.cebupacificair.com/Flight/Select?o1=' + self.origin + '&d1=' + self.destination + '&dd1=' + self.departureDate]
+        if self.option == 'oneWayDateRange':
+            print('One Way Date Range Activating....')
+            UrlService.setUrlList(self.origin,self.destination,self.departureDateFrom,self.departureDateTo)
+            urls = UrlService.getUrlList()
+            print("List: ", urls)
 
         if self.option == 'multipleSingleDate':
             urls = []
@@ -45,4 +51,32 @@ class SearchSpider(scrapy.Spider):
                     'flightNumber': fareRow.css('.flight-number ::text').extract_first(),
                     'fare': fareRow.css('.fare-amount ::text').extract_first()
                 }
+
+class UrlService:
+    urlList = []
+
+    @staticmethod
+    def setUrlList(origin, destination, dateRangeFrom, dateRangeTo):
+        print("Setting Url...")
+        if dateRangeTo:
+            print("Date Range Activated!\n Starting to loop through...")
+            startDate = Date.parseDate(dateRangeFrom)
+            endDate = Date.parseDate(dateRangeTo)
+            print("StartDate: {0}\n EndDate: {1}".format(startDate,endDate))
+
+            for date in range(int ((endDate - startDate).days)+1):
+                newDate =  startDate + timedelta(date)
+                print("Date: ",newDate) 
+                UrlService.addUrl(origin,destination,newDate)
+
+    @staticmethod
+    def addUrl(origin,destination,departureDate):
+        UrlService.urlList.append('https://book.cebupacificair.com/Flight/Select?o1={0}&d1={1}&dd1={2}'.format(origin,destination,departureDate))
+
+    @staticmethod
+    def getUrlList():
+        return UrlService.urlList
+
+
+    
 
