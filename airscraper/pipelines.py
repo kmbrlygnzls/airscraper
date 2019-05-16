@@ -16,7 +16,8 @@ class CsvWriterPipeline(object):
 
     def process_item(self, item, spider):
         csvWriter = csv.writer(self.file, delimiter= ',')
+        date = item['date'].strip()
         flightNumber = item['flightNumber'].strip()
         fare = float(item['fare'].strip().strip('PHP').replace(',', ''))
-        csvWriter.writerow([flightNumber, fare])
+        csvWriter.writerow([date, flightNumber, fare])
         return item
