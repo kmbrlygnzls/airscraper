@@ -1,7 +1,7 @@
 import scrapy
 import csv
 from airscraper.util import Date
-from datetime import timedelta,date,datetime
+from datetime import timedelta,date
 
 class SearchSpider(scrapy.Spider):
     name = 'search'
@@ -60,8 +60,8 @@ class UrlService:
         print("Setting Url...")
         if dateRangeTo:
             print("Date Range Activated!\n Starting to loop through...")
-            startDate = UrlService.parseDate(dateRangeFrom)
-            endDate = UrlService.parseDate(dateRangeTo)
+            startDate = Date.parseDate(dateRangeFrom)
+            endDate = Date.parseDate(dateRangeTo)
             print("StartDate: {0}\n EndDate: {1}".format(startDate,endDate))
 
             for date in range(int ((endDate - startDate).days)+1):
@@ -77,9 +77,6 @@ class UrlService:
     def getUrlList():
         return UrlService.urlList
 
-    @staticmethod
-    def parseDate(date):
-        return datetime.strptime(date, '%Y-%m-%d').date()
 
     
 
