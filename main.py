@@ -10,6 +10,7 @@ def main():
     print('')
 
     parameters = ''
+    budget = 100000
     if option == '1':
         parameters = oneWaySingleDate()
     elif option == '2':
@@ -21,7 +22,7 @@ def main():
     elif option == '5':
         parameters = oneWayByBudget()
     scrape(parameters)
-    get_results(option)
+    get_results(option, budget)
 
 def oneWaySingleDate():
     origin = input('Origin (ex. MNL): ')
@@ -74,8 +75,8 @@ def scrape(parameters):
     os.system('scrapy runspider airscraper/spiders/search.py ' + parameters)
     print('\ndepart.csv and return.csv (if applicable) generated')
 
-def get_results(option):
-    print("option: "+option)
-    os.system('python airscraper/app.py ' + option)
+def get_results(option, budget):
+    call_script_cmd = "python airscraper/app.py {} {}".format(option, budget)
+    os.system(call_script_cmd)
 
 main()
