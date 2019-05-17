@@ -54,8 +54,12 @@ class SearchSpider(scrapy.Spider):
 
         fareContainer = response.css('.select-flight-container')
         for fareTable in fareContainer.css('.flight-table'):
-            route = fareContainer.css('.station > span ::text')[1].extract()
+            route = ""
             flightType = fareTable.css('table ::attr(id)').extract_first().strip()
+            if flightType == "depart-table":
+                route = fareContainer.css('.station > span ::text')[1].extract()
+            if flightType == "return-table":
+                route = fareContainer.css('.station > span ::text')[3].extract()
             dateBox = response.css('.' + flightTypeIDMap[flightType]['scheduleID'])
             dateBox = dateBox.css('.active.flights-schedule-col')
             dateYear = dateBox.css('a ::attr(data-curdateyear)').extract_first()
