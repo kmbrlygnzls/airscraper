@@ -1,4 +1,5 @@
 import re
+from datetime import date,datetime
 
 class Date:
     def ParseIntMonth(monthFullString):
@@ -19,3 +20,7 @@ class Date:
         regex = '^\S+ \| (\S*)$'
         monthString = re.search(regex, monthFullString).group(1)
         return monthStringMap[monthString]
+
+    @staticmethod
+    def parseDate(date):
+        return datetime.strptime(date, '%Y-%m-%d').date()

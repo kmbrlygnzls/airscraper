@@ -1,6 +1,7 @@
 import scrapy
 import csv
 from airscraper.util import Date
+from airscraper.url import UrlService
 
 class SearchSpider(scrapy.Spider):
     name = 'search'
@@ -8,7 +9,11 @@ class SearchSpider(scrapy.Spider):
     def start_requests(self):
         if self.option == 'oneWaySingleDate':
             urls = ['https://book.cebupacificair.com/Flight/Select?o1=' + self.origin + '&d1=' + self.destination + '&dd1=' + self.departureDate]
-
+        
+        if self.option == 'oneWayDateRange':
+            UrlService.setUrlList(self.origin,self.destination,self.departureDateFrom,self.departureDateTo)
+            urls = UrlService.getUrlList()
+            
         if self.option == 'multipleSingleDate':
             urls = []
             destinations = self.destinations.split(',')
@@ -45,4 +50,8 @@ class SearchSpider(scrapy.Spider):
                     'flightNumber': fareRow.css('.flight-number ::text').extract_first(),
                     'fare': fareRow.css('.fare-amount ::text').extract_first()
                 }
+
+
+
+    
 
