@@ -5,6 +5,7 @@ def main():
     print('2 Cheapest one-way fare for given route and date range')
     print('3 Cheapest one-way fare for multiple destinations and date')
     print('4 Cheapest roundtrip fare for given route and date range')
+    print('5 One-way fares that match the budget for a date range')
     option = input('Option: ')
     print('')
 
@@ -17,6 +18,8 @@ def main():
         parameters = multipleSingleDate()
     elif option == '4':
         parameters = roundTripDateRange()
+    elif option == '5':
+        parameters = oneWayByBudget()
     scrape(parameters)
     get_results(option)
 
@@ -50,8 +53,25 @@ def roundTripDateRange():
     parameters = '-a option=roundTripDateRange -a origin=' + origin + ' -a destination=' + destination + ' -a departureDate=' + departureDate + ' -a returnDate=' + returnDate
     return parameters
 
+def cheapestByDateRange():
+    origin = input('Origin (ex. MNL): ')
+    budget = input('Budget in PHP (ex. 5000): ')
+    startDate = input('Date Range Start (ex. 2019-01-01): ')
+    endDate = input('Date Range End (ex. 2019-02-01): ')
+    duration = input('Duration of Trip in Days: ')
+    parameters = '-a option=cheapestByDateRange -a origin=' + origin + ' -a budget=' + budget + ' -a startDate=' + startDate + ' -a endDate=' + endDate + ' -a duration=' + duration
+    return parameters
+
+def oneWayByBudget():
+    origin = input('Origin (ex. MNL): ')
+    budget = input('Budget in PHP (ex. 5000): ')
+    departureDateFrom = input('Departure Date From (ex. 2019-01-01): ')
+    departureDateTo = input('Departure Date To (ex. 2019-01-07): ')
+    parameters = '-a option=oneWayByBudget -a origin=' + origin + ' -a budget=' + budget + ' -a departureDateFrom=' + departureDateFrom + ' -a departureDateTo=' + departureDateTo
+    return parameters
+
 def scrape(parameters):
-    os.system('scrapy runspider airscraper/spiders/search.py ' + parameters + ' --nolog')
+    os.system('scrapy runspider airscraper/spiders/search.py ' + parameters)
     print('\ndepart.csv and return.csv (if applicable) generated')
 
 def get_results(option):
