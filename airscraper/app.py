@@ -23,6 +23,7 @@ def main():
 
 		date_combo = [str(d1) + " to " + str(d2) for d1 in o_df['Date'] for d2 in d_df['Date']]
 		flightnum_combo = [fn1 + " and " + fn2 for fn1 in o_df['FlightNumber'] for fn2 in d_df['FlightNumber']]
+		route_combo = [r1 for r1 in o_df['Route'] for r2 in d_df['Route']]
 		fare_sum = [f1+f2 for f1 in o_df['Fare'] for f2 in d_df['Fare']]
 
 		sum_data = {
@@ -45,17 +46,13 @@ def main():
 			end_date = start_date + delta
 
 			o_df = pd.read_csv('depart.csv')
-			print(start_date)
 			o_df = o_df[o_df.Date == str(start_date)]
 
 			d_df = pd.read_csv('return.csv')
-			print(end_date)
 			d_df = d_df[d_df.Date == str(end_date)]
 
 			o_df.sort_values(by='Fare', inplace=True)
-			print(o_df)
 			d_df.sort_values(by='Fare', inplace=True)
-			print(d_df)
 
 			date_combo = [str(d1) + " to " + str(d2) for d1 in o_df['Date'] for d2 in d_df['Date']]
 			flightnum_combo = [fn1 + " and " + fn2 for fn1 in o_df['FlightNumber'] for fn2 in d_df['FlightNumber']]
@@ -80,10 +77,9 @@ def main():
 		print(o_df.sort_values(by='Fare'))
 
 	elif option == '5' and budget:
-		print("option 5")
 		o_df = pd.read_csv('depart.csv')
-		o_df = o_df[o_df.RTFare <= int(budget)]
-		print(o_df.sort_values(by='RTFare'))
+		o_df = o_df[o_df.Fare <= int(budget)]
+		print(o_df.sort_values(by='Fare'))
 
 if __name__ == "__main__":
 	main()

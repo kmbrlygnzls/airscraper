@@ -1,66 +1,7 @@
 import os
 
-<<<<<<< HEAD
-print('1 Cheapest one-way fare for given route and date')
-print('2 Cheapest one-way fare for given route and date range')
-print('3 Cheapest one-way fare for multiple destinations and date')
-print('4 Cheapest roundtrip fare for given route and date range')
-print('5 One-way fares that match the budget for a date range')
-print('6 Roundtrip fares that match the budget for a date range')
-option = '0'
-option = input('Option: ')
-print('')
-
-parameters = ''
 budget = 100000
 parse_params = ''
-
-def main():
-    airplane = "\n\n========================================   AirScraper   ===========================================\n\n"
-    airplane += "                                               |\n"
-    airplane += "                                               |\n"
-    airplane += "                                               |\n"
-    airplane += "                                             .-'-.\n"
-    airplane += "                                            ' ___ '\n"
-    airplane += "                                  ---------'  .-.  '---------\n"
-    airplane += "                   ________________________'  '-'  '_________________________\n"
-    airplane += "                   ''''''-|---|--/    \==][^',_m_,'^][==/    \--|---|-''''''\n"
-    airplane += "                                 \    /  ||/   H   \||  \    /\n"
-    airplane += "                                  '--'   OO   O|O   OO   '--'\n\n\n"
-    airplane += 'Know the cheapest one-way and roundtrip fares for a given date, destination, budget, and more!\n'
-    airplane += 'This scrapes data from the Cebu Pacific Airlines website, and built with Scrapy and Pandas (Python)\n\n'
-    airplane += '===================================================================================================\n'
-    input(airplane)
-
-    while True:
-        print('\nSelect an option below:')
-        print('1 Cheapest one-way fare for given route and date')
-        print('2 Cheapest one-way fare for given route and date range')
-        print('3 Cheapest one-way fare for multiple destinations and date')
-        print('4 Cheapest roundtrip fare for given route and date range')
-        print('5 One-way fares that match the budget for a date range')
-        print('6 Roundtrip fares that match the budget for a date range')
-        option = input('Option: ')
-        print('')
-
-        parameters = ''
-        if option == '1':
-            parameters = oneWaySingleDate()
-        elif option == '2':
-            parameters = oneWayDateRange()
-        elif option == '3':
-            parameters = multipleSingleDate()
-        elif option == '4':
-            parameters = roundTripDateRange()
-        elif option == '5':
-            parameters = oneWayByBudget()
-        elif option == '6':
-            parameters = cheapestByDateRange()
-        elif option == 'exit':
-            exit()
-        scrape(parameters)
-        get_results(option)
-        input('\nPress Enter for next selection')
 
 def oneWaySingleDate():
     global parse_params
@@ -129,4 +70,49 @@ def get_results():
     print(call_script_cmd)
     os.system(call_script_cmd)
 
-main()
+airplane = "\n\n========================================   AirScraper   ===========================================\n\n"
+airplane += "                                               |\n"
+airplane += "                                               |\n"
+airplane += "                                               |\n"
+airplane += "                                             .-'-.\n"
+airplane += "                                            ' ___ '\n"
+airplane += "                                  ---------'  .-.  '---------\n"
+airplane += "                   ________________________'  '-'  '_________________________\n"
+airplane += "                   ''''''-|---|--/    \==][^',_m_,'^][==/    \--|---|-''''''\n"
+airplane += "                                 \    /  ||/   H   \||  \    /\n"
+airplane += "                                  '--'   OO   O|O   OO   '--'\n\n\n"
+airplane += 'Know the cheapest one-way and roundtrip fares for a given date, destination, budget, and more!\n'
+airplane += 'This scrapes data from the Cebu Pacific Airlines website, and built with Scrapy and Pandas (Python)\n\n'
+airplane += '===================================================================================================\n'
+input(airplane)
+
+while True:
+    print('\nSelect an option below:')
+    print('1 Cheapest one-way fare for given route and date')
+    print('2 Cheapest one-way fare for given route and date range')
+    print('3 Cheapest one-way fare for multiple destinations and date')
+    print('4 Cheapest roundtrip fare for given route and date range')
+    print('5 One-way fares that match the budget for a date range')
+    print('6 Roundtrip fares that match the budget for a date range')
+    option = input('Option: ')
+    print('')
+
+    parameters = ''
+    if option == '1':
+        parameters = oneWaySingleDate()
+    elif option == '2':
+        parameters = oneWayDateRange()
+    elif option == '3':
+        parameters = multipleSingleDate()
+    elif option == '4':
+        parameters = roundTripDateRange()
+    elif option == '5':
+        parameters = oneWayByBudget()
+    elif option == '6':
+        parameters = cheapestByDateRange()
+    elif option == 'exit':
+        exit()
+    
+    scrape(parameters)
+    get_results()
+    

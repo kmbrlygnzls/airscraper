@@ -10,9 +10,9 @@ class SearchPipeline(object):
 
 class CsvWriterPipeline(object):
     def open_spider(self, spider):
-        self.depart_file_handle = open('airscraper/depart.csv', 'w')
+        self.depart_file_handle = open('depart.csv', 'w')
         self.depart_file_handle.write("Date,FlightNumber,Fare,Route")
-        self.return_file_handle = open('airscraper/return.csv', 'w')
+        self.return_file_handle = open('return.csv', 'w')
         self.return_file_handle.write("Date,FlightNumber,Fare,Route")
 
     def close_spider(self, spider):
