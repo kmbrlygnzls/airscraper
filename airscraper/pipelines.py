@@ -1,4 +1,5 @@
 import csv
+from airscraper.util import Place
 
 class SearchPipeline(object):
     def process_item(self, item, spider):
@@ -22,7 +23,7 @@ class CsvWriterPipeline(object):
         date = item['date'].strip()
         flightNumber = item['flightNumber'].strip()
         fare = float(item['fare'].strip().strip('PHP').replace(',', ''))
-        route = item['route'].strip()
+        route = Place.GetPlaceID(item['route'].strip())
         if item['type'] == 'depart':
             file_handle = self.depart_file_handle
         elif item['type'] == 'return':

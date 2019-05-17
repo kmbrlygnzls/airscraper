@@ -48,3 +48,8 @@ class Place:
             'HAN': 'Hanoi'
         }
         return placeIDMap
+
+    def GetPlaceID(rawPlaceID):
+        regex = '^\((\S*)\)$'
+        placeID = re.search(regex, rawPlaceID).group(1)
+        return placeID
