@@ -6,6 +6,7 @@ def main():
     print('3 Cheapest one-way fare for multiple destinations and date')
     print('4 Cheapest roundtrip fare for given route and date range')
     print('5 One-way fares that match the budget for a date range')
+    print('6 Roundtrip fares that match the budget for a date range')
     option = input('Option: ')
     print('')
 
@@ -20,6 +21,8 @@ def main():
         parameters = roundTripDateRange()
     elif option == '5':
         parameters = oneWayByBudget()
+    elif option == '6':
+        parameters = cheapestByDateRange()
     scrape(parameters)
     get_results(option)
 
@@ -71,11 +74,9 @@ def oneWayByBudget():
     return parameters
 
 def scrape(parameters):
-    os.system('scrapy runspider airscraper/spiders/search.py ' + parameters)
-    print('\ndepart.csv and return.csv (if applicable) generated')
+    os.system('scrapy runspider airscraper/spiders/search.py ' + parameters + ' --nolog')
 
 def get_results(option):
-    print("option: "+option)
     os.system('python airscraper/app.py ' + option)
 
 main()
