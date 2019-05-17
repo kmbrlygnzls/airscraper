@@ -9,11 +9,11 @@ class SearchSpider(scrapy.Spider):
     def start_requests(self):
         if self.option == 'oneWaySingleDate':
             urls = ['https://book.cebupacificair.com/Flight/Select?o1=' + self.origin + '&d1=' + self.destination + '&dd1=' + self.departureDate]
-        
+
         if self.option == 'oneWayDateRange':
             UrlService.setUrlList(self.origin,self.destination,self.departureDateFrom,self.departureDateTo)
             urls = UrlService.getUrlList()
-            
+
         if self.option == 'multipleSingleDate':
             urls = []
             destinations = self.destinations.split(',')
