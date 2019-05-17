@@ -21,6 +21,7 @@ def main():
     elif option == '5':
         parameters = oneWayByBudget()
     scrape(parameters)
+    get_results(option)
 
 def oneWaySingleDate():
     origin = input('Origin (ex. MNL): ')
@@ -72,5 +73,9 @@ def oneWayByBudget():
 def scrape(parameters):
     os.system('scrapy runspider airscraper/spiders/search.py ' + parameters)
     print('\ndepart.csv and return.csv (if applicable) generated')
+
+def get_results(option):
+    print("option: "+option)
+    os.system('python airscraper/app.py ' + option)
 
 main()
