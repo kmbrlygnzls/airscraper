@@ -38,6 +38,11 @@ class SearchSpider(scrapy.Spider):
                     startDate = Date.GetEndDate(self.startDate, startDateIter)
                     endDate = Date.GetEndDate(startDate, self.duration)
 
+        if self.option == 'oneWayByBudget':
+            for destination in Place.GetAll():
+                UrlService.setUrlList(self.origin,destination,self.departureDateFrom,self.departureDateTo)
+                urls = UrlService.getUrlList()
+
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
