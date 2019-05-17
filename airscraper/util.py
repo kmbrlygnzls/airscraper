@@ -1,5 +1,5 @@
 import re
-from datetime import date,datetime
+import datetime
 
 class Date:
     def ParseIntMonth(monthFullString):
@@ -23,4 +23,33 @@ class Date:
 
     @staticmethod
     def parseDate(date):
-        return datetime.strptime(date, '%Y-%m-%d').date()
+        return datetime.datetime.strptime(date, '%Y-%m-%d').date()
+
+    def GetEndDate(startDate, duration):
+        date = datetime.datetime.strptime(startDate, '%Y-%m-%d')
+        endDate = date + datetime.timedelta(days=int(duration))
+        return endDate.strftime('%Y-%m-%d')
+
+class Place:
+    def GetAll():
+        placeIDMap = {
+            'REP': 'Cambodia',
+            'PEK': 'Beijing',
+            'HKG': 'Hong Kong',
+            'CGK': 'Jakarta',
+            'KIX': 'Kansai',
+            'NRT': 'Tokyo',
+            'MFM': 'Macau',
+            'KUL': 'Kuala Lumpur',
+            'SIN': 'Singapore',
+            'ICN': 'Incheon',
+            'TPE': 'Taipei',
+            'BKK': 'Bangkok',
+            'HAN': 'Hanoi'
+        }
+        return placeIDMap
+
+    def GetPlaceID(rawPlaceID):
+        regex = '^\((\S*)\)$'
+        placeID = re.search(regex, rawPlaceID).group(1)
+        return placeID
